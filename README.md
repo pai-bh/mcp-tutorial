@@ -1,77 +1,81 @@
-LangChina 기반 MCP Tutorial
+# MCP (Model Context Protocol) Tutorial
 
-- 목표1: 구글 캘린더 연동
-- 목표2: Slack 연동
-- 목표3: Figma연동
+<div align="center">
 
+[![Python Version][python-badge]][python-url]
+[![MCP Version][mcp-badge]][mcp-url]
+[![Documentation][docs-badge]][docs-url]
 
-- 목표: MCP의 통신방법
-- 목표: MCP의 보안취약점
+[python-badge]: https://img.shields.io/badge/python-3.11-blue.svg
+[python-url]: https://www.python.org/downloads/
+[mcp-badge]: https://img.shields.io/badge/mcp-1.6.0-green.svg
+[mcp-url]: https://pypi.org/project/mcp/
+[docs-badge]: https://img.shields.io/badge/docs-modelcontextprotocol.io-blue.svg
+[docs-url]: https://modelcontextprotocol.io
 
+</div>
 
-```python
-from mcp.server.fastmcp import FastMCP
+## 📚 학습 단계
 
-mcp = FastMCP("Echo")
+### Step 0: MCP 이해하기
+- [MCP 개념 및 구조](docs/00_MCP란?.md)
+  - Resources, Tools, Prompts 이해
+  - MCP vs 전통적인 API
+  - 통신 프로토콜 이해
 
+### Step 1: MCP Inspector 활용
+- [Inspector를 통한 테스트](docs/01_MCP%20inspector를%20활용한%20테스트.md)
+  - 기본 서버 구현 (country_server.py)
+  - Inspector 사용법
+  - 세션 관리 및 통신 방식
 
-@mcp.resource("echo://{message}")
-def echo_resource(message: str) -> str:
-    """Echo a message as a resource"""
-    return f"Resource echo: {message}"
+### Step 2: 외부 서비스 연동
+- Google Calendar 연동 (진행 예정)
+- Slack 연동 (진행 예정)
+- Figma 연동 (진행 예정)
 
+## 🚀 시작하기
 
-@mcp.tool()
-def echo_tool(message: str) -> str:
-    """Echo a message as a tool"""
-    return f"Tool echo: {message}"
-
-
-@mcp.prompt()
-def echo_prompt(message: str) -> str:
-    """Create an echo prompt"""
-    return f"Please process this message: {message}"
-
-
-if __name__ == "__main__":
-    mcp.run()
-
-```
-위와 같은 코드를 작성 후, 아래 shell 실행
-
-```shell
-mcp dev echo_server.py
-```
-위처럼 `mcp dev` 명령어를 통하면, mcp inspector를 활용?
-참고링크 : https://modelcontextprotocol.io/docs/tools/inspector
-
- 
-
+### 환경 설정
 ```bash
-mcp-tutorial-py3.11➜  mcp-tutorial mcp dev echo_server.py
+# Poetry 설치 (필요한 경우)
+curl -sSL https://install.python-poetry.org | python3 -
 
-Starting MCP inspector...
-Proxy server listening on port 3000
+# 프로젝트 의존성 설치
+poetry install
 
-🔍 MCP Inspector is up and running at http://localhost:5173 🚀
+# 가상환경 활성화
+poetry shell
 ```
 
+### 기본 서버 실행
+```bash
+mcp dev country_server.py
+```
 
-https://github.com/modelcontextprotocol/python-sdk 를 활용해서..간단하게 서버구축?
-물론, FastMCP 사용할것같음.
+## 📁 프로젝트 구조 (초안)
+```shell
+.
+├── docs/
+│ ├── 00_MCP란?.md
+│ └── 01_MCP inspector를 활용한 테스트.md
+├── country_server.py # 기본 MCP 서버 예제
+├── country_client.py # Python 클라이언트 예제
+├── pyproject.toml # 의존성 관리
+└── README.md
+```
 
+## 🔗 참고 자료
 
-- 참고링크 : https://www.youtube.com/watch?v=kQmXtrmQ5Zg&t=2s
-- 참고링크 : https://github.com/lastmile-ai/mcp-agent
-- 참고링크 : https://modelcontextprotocol.io/introduction
-- 참고링크 : https://discuss.pytorch.kr/t/deep-research-model-context-protocol-mcp/6594
-- 참고링크 : https://github.com/modelcontextprotocol/python-sdk/blob/main/README.md?utm_source=pytorchkr&ref=pytorchkr
+### 공식 문서
+- [MCP 공식 문서](https://modelcontextprotocol.io)
+- [Python SDK GitHub](https://github.com/modelcontextprotocol/python-sdk)
+- [MCP Agent 예제](https://github.com/lastmile-ai/mcp-agent)
 
+### 커뮤니티 자료
+- [간단하게 만들면서 이해해보는 MCP](https://velog.io/@todd/간단하게-만들면서-이해해보는-MCP)
+- [Awesome MCP Servers](https://github.com/punkpeye/awesome-mcp-servers)
+- [PyTorch KR Discussion](https://discuss.pytorch.kr/t/deep-research-model-context-protocol-mcp/6594)
 
-[Agent관련 참고링크]
-- https://www.anthropic.com/engineering/building-effective-agents
-
-
-[도움이 많이 된 링크]
-- https://velog.io/@todd/%EA%B0%84%EB%8B%A8%ED%95%98%EA%B2%8C-%EB%A7%8C%EB%93%A4%EB%A9%B4%EC%84%9C-%EC%9D%B4%ED%95%B4%ED%95%B4%EB%B3%B4%EB%8A%94-MCP
-- https://github.com/punkpeye/awesome-mcp-servers
+### 추가 학습 자료
+- [Building Effective Agents - Anthropic](https://www.anthropic.com/engineering/building-effective-agents)
