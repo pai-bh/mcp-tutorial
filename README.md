@@ -25,7 +25,7 @@
 
 ### Step 1: MCP Inspector 활용
 - [Inspector를 통한 테스트](docs/01_MCP%20inspector를%20활용한%20테스트.md)
-  - 기본 서버 구현 (country_server.py)
+  - 기본 서버 구현 (examples/country_server/country_server.py)
   - Inspector 사용법
   - 세션 관리 및 통신 방식
 
@@ -35,6 +35,8 @@
 - Figma 연동 (진행 예정)
 
 ## 🚀 시작하기
+
+- 외부 라이브러리는 fastmcp, mcp-agent를 사용한다.
 
 ### 환경 설정
 ```bash
@@ -50,7 +52,7 @@ poetry shell
 
 ### 기본 서버 실행
 ```bash
-mcp dev country_server.py
+mcp dev examples/country_server/country_server.py
 ```
 
 ## 📁 프로젝트 구조 (초안)
@@ -59,7 +61,7 @@ mcp dev country_server.py
 ├── docs/
 │ ├── 00_MCP란?.md
 │ └── 01_MCP inspector를 활용한 테스트.md
-├── country_server.py # 기본 MCP 서버 예제
+├── examples/country_server/country_server.py # 기본 MCP 서버 예제
 ├── country_client.py # Python 클라이언트 예제
 ├── pyproject.toml # 의존성 관리
 └── README.md
@@ -69,8 +71,9 @@ mcp dev country_server.py
 
 ### 공식 문서
 - [MCP 공식 문서](https://modelcontextprotocol.io)
-- [Python SDK GitHub](https://github.com/modelcontextprotocol/python-sdk)
+- [FastMPC 예제](https://github.com/jlowin/fastmcp)
 - [MCP Agent 예제](https://github.com/lastmile-ai/mcp-agent)
+- [Python SDK GitHub](https://github.com/modelcontextprotocol/python-sdk)
 
 ### 커뮤니티 자료
 - [간단하게 만들면서 이해해보는 MCP](https://velog.io/@todd/간단하게-만들면서-이해해보는-MCP)

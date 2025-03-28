@@ -12,6 +12,7 @@ langchain = "^0.3.21"
 fastmcp = "^0.4.1"
 uvicorn = "^0.34.0"
 mcp = "^1.6.0"
+mcp-agent = "^0.0.13"
 
 [tool.poetry.group.dev.dependencies]
 jupyter = "^1.1.1"

@@ -14,7 +14,7 @@ MCP Inspector는 MCP 서버의 기능을 테스트하고 디버깅하기 위한 
 
 ### 2.1 기본 서버 코드
 ```python
-# country_server.py
+# examples/country_server/country_server.py
 from mcp.server.fastmcp import FastMCP
 
 # 간단한 "국가-수도" 데이터베이스
@@ -67,7 +67,7 @@ if __name__ == "__main__":
 poetry shell
 
 # MCP 서버 실행
-mcp dev country_server.py
+mcp dev examples/country_server/country_server.py
 ```
 
 ### 3.2 Inspector 접속 및 설정
@@ -76,7 +76,7 @@ mcp dev country_server.py
 
 Inspector 설정:
 - Command: `python`
-- Arguments: `country_server.py`
+- Arguments: `examples/country_server/country_server.py`
 
 ### 3.3 기능 테스트
 
@@ -171,7 +171,7 @@ from mcp.client.stdio import stdio_client
 async def test_country_info():
     server_params = StdioServerParameters(
         command="python",
-        args=["country_server.py"]
+        args=["examples/country_server/country_server.py"]
     )
     
     async with stdio_client(server_params) as (read, write):
