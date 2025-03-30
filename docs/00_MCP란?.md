@@ -21,30 +21,28 @@ MCP의 작동 방식은 마치 컴퓨터와 다양한 주변기기를 연결하�
 
 ### 2.1 MCP 아키텍처: Host, Client, Server
 ![MCP Architecture](../assets/mcp_cleary_explained.png)
-이미지출처: https://www.dailydoseofds.com/p/visual-guide-to-model-context-protocol-mcp/
 
-#### MCP Host (호스트)
-- LLM 상호작용을 위한 환경을 제공하는 AI 애플리케이션 (Claude Desktop, Cursor 등)
-- 사용자와 LLM 사이의 인터페이스 역할 수행
-- 내부적으로 MCP Client를 포함하여 다양한 외부 도구와 데이터에 접근
+#### Host (애플리케이션)
+- Claude Desktop, Cursor AI와 같은 사용자 인터페이스 애플리케이션
+- LLM을 관리하고 사용자와 AI 모델 간 상호작용 제공
+- 내부에 MCP Client를 포함하여 외부 도구와 연결
 
-#### MCP Client (클라이언트)
-- 호스트 애플리케이션 내부에서 동작하는 컴포넌트
-- MCP 서버와의 통신을 처리하고 연결 관리
-- 호스트가 필요한 컨텍스트에 접근할 수 있도록 중개 역할 수행
+#### Client (통신 중개자)
+- Host 내부에 존재하는 통신 컴포넌트
+- MCP Server와의 연결 및 통신 처리 담당
+- Server가 제공하는 Tool과 Resource 목록을 탐색하고 호출
 
-#### MCP Server (서버)
-- 특정 기능이나 데이터 소스를 MCP 프로토콜로 노출시키는 서비스
-- 파일 시스템, 데이터베이스, API, 웹 서비스 등 다양한 백엔드 시스템에 접근 제공
-- 하나의 호스트는 여러 MCP 서버에 동시에 연결 가능
-- 예: 파일 시스템 서버, Google Drive 서버, Slack 서버, PostgreSQL 서버 등
+#### Server (도구 제공자)
+- 외부 시스템 기능을 MCP 프로토콜로 노출하는 독립 서비스
+- Google Drive, Slack, 데이터베이스 등 다양한 시스템에 접근 제공
+- 하나의 Host가 여러 Server에 동시에 연결하여 다양한 기능을 통합할 수 있음
 
-MCP 서버는 세 가지 유형의 컨텍스트 요소를 호스트와 LLM에 제공합니다. 이러한 요소들이 LLM에게 외부 시스템과 상호작용할 수 있는 능력을 부여합니다.
+MCP Server는 세 가지 유형의 컨텍스트 요소를 Host를 통해 LLM에게 제공합니다. 이러한 요소들이 LLM에게 외부 시스템과 상호작용할 수 있는 능력을 부여합니다.
 
 ### 2.2 Context 요소
 
 #### Resources (리소스)
-- 모델이 참고할 수 있는 읽기 전용 데이터입니다
+- 모델이 참고할 수 있는 읽기 전용 데이터
 - URI 형식으로 식별되는 데이터 접근점
 - 예: 파일 내용, API 응답, 데이터베이스 조회 결과
 - `@mcp.resource("file://{path}")` 형태로 정의
@@ -57,7 +55,6 @@ MCP 서버는 세 가지 유형의 컨텍스트 요소를 호스트와 LLM에 �
 
 #### Prompts (프롬프트)
 - LLM에게 특정 작업 수행 방법을 알려주는 재사용 가능한 템플릿
-- 일관된 형식의 상호작용 패턴을 정의
 - 예: 코드 검토, 텍스트 요약, 데이터 분석 등의 정형화된 작업
 - `@mcp.prompt()` 데코레이터로 정의
 
@@ -66,8 +63,6 @@ MCP 서버는 세 가지 유형의 컨텍스트 요소를 호스트와 LLM에 �
 MCP 기반 시스템에서 LLM이 외부 도구를 사용하는 전체 과정을 살펴보겠습니다.
 
 ### 3.1 MCP 동작 흐름 개요
-
-![MCP Architecture](../assets/mcp_cleary_explained.png)
 
 MCP 시스템에서 호스트, 클라이언트, 서버 간 통신은 다음 단계로 이루어집니다:
 
@@ -82,11 +77,16 @@ MCP 시스템에서 호스트, 클라이언트, 서버 간 통신은 다음 단�
 5. **응답 생성**: LLM이 도구의 결과를 활용해 최종 답변을 생성하고 사용자에게 전달합니다.
 
 ### 3.2 상세 흐름 다이어그램
+아래 다이어그램은 MCP 기반 애플리케이션의 통신 흐름을 나타냅니다. 
+
+Host는 Cursor AI나 Claude Desktop과 같은 애플리케이션으로, 내부에 MCP Client를 포함하고 있습니다. 
+
+사용자 질문이 입력되면 LLM이 필요한 Tool을 선택하고, MCP Server에서 실행된 결과를 받아 최종 응답을 생성합니다.
 
 ```mermaid
 sequenceDiagram
     participant User as 사용자
-    participant Host as 호스트 애플리케이션
+    participant Host as Host(애플리케이션)
     participant LLM as LLM(Claude, GPT 등)
     participant Client as MCP 클라이언트
     participant Server as MCP 서버
@@ -408,4 +408,4 @@ MCP는 현재 Claude Desktop, Cursor, Zed 등 주요 AI 플랫폼에서 지원�
 
 이러한 생태계는 AI 애플리케이션의 기능과 활용 범위를 크게 확장할 것으로 예상됩니다.
 
-개발자 관점에서 MCP의 가장 큰 가치는 Tool 개발과 AI 애플리케이션 개발의 분리를 통해 복잡성을 줄이고, 각 분야의 전문가가 자신의 영역에 집중할 수 있게 해준다는 점입니다. 이는 AI 시스템 개발의 효율성과 확장성을 크게 향상시키는 중요한 진전입니다.
+AI 어플리케이션 개발자 관점에서 본다면, MCP를 사용에 대한 장점을 하나만 뽑자면, 가장 큰 이점은 `Tool(Agent) 개발과 AI 애플리케이션 개발의 분리`를 통해 소스코드의 복잡성을 줄여 개발효율성이 높아질 수 있을 것 같습니다.
