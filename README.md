@@ -20,6 +20,7 @@
 ### Step 0: MCP 이해하기
 - [MCP 개념 및 구조](docs/00_MCP란?.md)
   - Resources, Tools, Prompts 이해
+  - MCP Server, Host, Client에 대한 이해
   - MCP vs 전통적인 API
   - 통신 프로토콜 이해
 
@@ -79,6 +80,7 @@ mcp dev examples/country_server/country_server.py
 - [간단하게 만들면서 이해해보는 MCP](https://velog.io/@todd/간단하게-만들면서-이해해보는-MCP)
 - [Awesome MCP Servers](https://github.com/punkpeye/awesome-mcp-servers)
 - [PyTorch KR Discussion](https://discuss.pytorch.kr/t/deep-research-model-context-protocol-mcp/6594)
+- https://www.dailydoseofds.com/p/visual-guide-to-model-context-protocol-mcp/
 
 ### 추가 학습 자료
 - [Building Effective Agents - Anthropic](https://www.anthropic.com/engineering/building-effective-agents)
